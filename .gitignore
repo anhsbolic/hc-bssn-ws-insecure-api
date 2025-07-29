@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Environment variables
+.env
+
+# Logs
+logs
+*.log
+log-*.log
+
+# Runtime files
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory
+coverage/
+
+# Compiled binary addons (if any)
+build/Release
+
+# Docker
+uploads/

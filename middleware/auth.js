@@ -5,8 +5,8 @@ module.exports = (req, res, next) => {
     const token = req.headers['authorization']?.replace('Bearer ', '');
     if (!token) return res.status(401).send('No token provided');
     try {
-        const decoded = jwt.verify(token, SECRET, {ignoreExpiration: true}); // Insecure: no expiry check
-        req.user = decoded;
+        // Insecure: no expiry check
+        req.user = jwt.verify(token, SECRET, {ignoreExpiration: true});
         next();
     } catch (err) {
         res.status(401).send('Invalid token');

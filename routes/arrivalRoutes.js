@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createArrival, getArrivals, getArrivalById, approveArrival } = require('../controllers/arrivalController');
+const {createArrival, getArrivals, getArrivalById, approveArrival} = require('../controllers/arrivalController');
 const auth = require('../middleware/auth');
 
 router.post('/arrival', createArrival); // No auth check (insecure)

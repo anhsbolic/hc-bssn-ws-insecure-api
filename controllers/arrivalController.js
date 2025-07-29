@@ -1,3 +1,4 @@
+/** @type {import('pg').Pool} */
 const pool = require('../db');
 
 exports.createArrival = async (req, res) => {

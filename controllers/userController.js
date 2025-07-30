@@ -2,17 +2,21 @@
 const pool = require('../db');
 
 exports.addUser = async (req, res) => {
-    const {email, password, role} = req.body;
+    const {email, password, name, role} = req.body;
     try {
         // Insecure: raw SQL, no validation, plaintext password
-        await pool.query(`INSERT INTO users (username, password, role)
-                          VALUES ('${email}', '${password}', '${role}')`);
-        res.send({
+        await pool.query(`INSERT INTO users (username, password, name, role)
+                          VALUES ('${email}', '${password}', '${name}', '${role}')`);
+
+        res.status(201).json({
             success: true,
             message: "User Added Successfully"
         });
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        })
     }
 };
 
@@ -26,6 +30,9 @@ exports.listUsers = async (req, res) => {
             message: "Users retrieved successfully"
         });
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        })
     }
 };

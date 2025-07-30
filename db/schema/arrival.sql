@@ -1,8 +1,28 @@
 CREATE TABLE arrivals
 (
-    id               SERIAL PRIMARY KEY,
-    fullname         TEXT,
-    passport_no      TEXT,
-    vaccine_card_url TEXT,
-    status           TEXT DEFAULT 'pending'
+    id                      SERIAL PRIMARY KEY,
+    full_name               TEXT,
+    passport_no             TEXT,
+    nationality             TEXT,
+    gender                  TEXT,
+    birth_date              DATE,
+    face_photo_url          TEXT,
+    phone_number            TEXT,
+    email                   TEXT,
+    address_in_indonesia    TEXT,
+    flight_info             TEXT,
+    arrival_datetime        TIMESTAMP,
+    departure_city          TEXT,
+    destination_city        TEXT,
+    health_info             TEXT,
+    emergency_contact_name  TEXT,
+    emergency_contact_phone TEXT,
+    vaccine_card_url        TEXT,
+    status                  TEXT DEFAULT 'pending',
+    approved_by_user_id     BIGINT,
+    approved_by_name        TEXT,
+    approved_at             TIMESTAMP,
+    rejected_by_user_id     BIGINT,
+    rejected_by_name        TEXT,
+    rejected_at             TIMESTAMP
 );

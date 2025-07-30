@@ -1,12 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const {createArrival, getArrivals, getArrivalById, approveArrival} = require('../controllers/arrivalController');
 const auth = require('../middleware/auth');
+const {
+    createArrival,
+    getArrivals,
+    getArrivalById,
+    approveArrival,
+    rejectArrival
+} = require('../controllers/arrivalController');
 
-router.post('/arrivals', createArrival); // No auth check (insecure)
-router.get('/arrivals', getArrivals); // No auth check (insecure)
-router.get('/arrivals/:id', getArrivalById); // No auth check (insecure)
-router.post('/arrivals/:id/approve', auth, approveArrival); // Role check missing
 
+router.post('/arrivals', createArrival);
+router.get('/arrivals', getArrivals);
+router.get('/arrivals/:id', getArrivalById);
+router.post('/arrivals/:id/approve', auth, approveArrival);
+router.post('/arrivals/:id/reject', auth, rejectArrival);
 
 module.exports = router;

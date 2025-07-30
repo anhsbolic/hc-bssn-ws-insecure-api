@@ -13,10 +13,23 @@ exports.login = async (req, res) => {
                                          AND password = '${password}'`);
         // Insecure: SQL injection possible
 
-        if (user.rowCount === 0) return res.status(401).send("Invalid credentials");
+        if (user.rowCount === 0) return res.status(401).json({
+            success: false,
+            message: "Invalid email or password"
+        });
+
         const token = jwt.sign(user.rows[0], SECRET); // No expiry
-        res.json({token});
+        res.json({
+            success: true,
+            data: {
+                access_token: token,
+            },
+            message: "Login successful"
+        });
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        })
     }
 };

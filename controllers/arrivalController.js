@@ -59,6 +59,14 @@ exports.getArrivalById = async (req, res) => {
         const result = await pool.query(`SELECT *
                                          FROM arrivals
                                          WHERE id = ${id}`); // No sanitization
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Arrival not found",
+            });
+        }
+
         res.json({
             success: true,
             data: result.rows[0],

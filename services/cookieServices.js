@@ -63,15 +63,40 @@ async function refreshAccessToken(userId, oldToken) {
     return {accessToken, refreshToken}
 }
 
-function logoutUser(refreshToken) {
+async function logoutUser(userId, refreshToken) {
+    const result = await pool.query(
+        `DELETE
+         FROM refresh_tokens
+         WHERE user_id = $1
+           AND token = $2`,
+        [userId, refreshToken]
+    )
+
+    return result.rowCount > 0
 }
 
-function validateRefreshToken(refreshToken) {
+async function logoutAllSessions(userId) {
+    const result = await pool.query(
+        `DELETE
+         FROM refresh_tokens
+         WHERE user_id = $1`,
+        [userId]
+    )
+    return result.rowCount
+}
+
+async function getUserById(userId) {
+    const result = await pool.query('SELECT * FROM users WHERE id = $1', [userId])
+    if (result.rowCount === 0) {
+        throw new Error('User not found')
+    }
+    return result.rows[0]
 }
 
 module.exports = {
     loginUser,
     refreshAccessToken,
     logoutUser,
-    validateRefreshToken
+    logoutAllSessions,
+    getUserById
 }

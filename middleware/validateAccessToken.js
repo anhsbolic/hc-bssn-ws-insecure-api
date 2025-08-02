@@ -1,17 +1,21 @@
 const {verifyAccessToken} = require('../utils/jwt')
 
-function authenticateAccessToken(req, res, next) {
+function validateAccessToken(req, res, next) {
     const authHeader = req.headers['authorization']
     if (!authHeader?.startsWith('Bearer ')) {
-        return res.status(401).json({message: 'No token'})
+        return res.status(401).json({message: 'Missing or invalid Authorization header'})
     }
+
     const token = authHeader.split(' ')[1]
+
     try {
-        verifyAccessToken(token)
+        const payload = verifyAccessToken(token)
+        req.userId = payload.id
+        req.userRole = payload.role
         next()
     } catch (err) {
-        return res.status(401).json({message: 'Invalid token'})
+        return res.status(401).json({message: 'Invalid or expired access token'})
     }
 }
 
-module.exports = {authenticateAccessToken}
+module.exports = validateAccessToken

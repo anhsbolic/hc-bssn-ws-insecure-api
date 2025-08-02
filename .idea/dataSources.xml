@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/insecuredb</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="PROD" uuid="6e078b7e-43bf-4404-89b1-0f638022ea36">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://switchyard.proxy.rlwy.net:45784/railway</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

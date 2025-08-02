@@ -33,3 +33,12 @@ exports.login = async (req, res) => {
         })
     }
 };
+
+
+exports.logout = (req, res) => {
+    // No actual logout logic, just a placeholder
+    res.json({
+        success: true,
+        message: "Logout successful"
+    });
+};

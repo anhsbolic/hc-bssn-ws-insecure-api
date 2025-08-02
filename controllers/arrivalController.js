@@ -39,10 +39,31 @@ exports.createArrival = async (req, res) => {
 
 exports.getArrivals = async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM arrivals");
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const offset = (page - 1) * limit;
+
+        const result = await pool.query(`
+            SELECT *
+            FROM arrivals
+            ORDER BY id DESC
+            LIMIT ${limit} OFFSET ${offset}
+        `);
+
+        const totalDataResult = await pool.query(`
+            SELECT COUNT(*) AS total
+            FROM arrivals
+        `);
+        const totalData = parseInt(totalDataResult.rows[0].total, 10);
+
         res.json({
             success: true,
             data: result.rows,
+            meta: {
+                page: page,
+                limit: limit,
+                total: totalData
+            },
             message: "list of Arrivals retrieved successfully"
         });
     } catch (err) {

@@ -1,6 +1,6 @@
 const {verifyAccessToken} = require('../utils/jwt')
 
-function authenticateToken(req, res, next) {
+function authenticateAccessToken(req, res, next) {
     const authHeader = req.headers['authorization']
     if (!authHeader?.startsWith('Bearer ')) {
         return res.status(401).json({message: 'No token'})
@@ -14,4 +14,4 @@ function authenticateToken(req, res, next) {
     }
 }
 
-module.exports = {authenticateToken}
+module.exports = {authenticateAccessToken}

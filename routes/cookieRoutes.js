@@ -1,12 +1,13 @@
 const express = require('express')
 const controller = require('../controllers/cookieController')
-const {authenticateToken} = require('../middleware/cookieMiddleware')
+const {authenticateAccessToken} = require('../middleware/validateAccessToken')
+const validateRefreshToken = require('../middleware/validateRefreshToken')
 
 const router = express.Router()
 
 router.post('/login', controller.login)
-router.post('/refresh-token', controller.refreshToken)
-router.post('/logout', controller.logout)
-router.get('/private/data', authenticateToken, controller.privateData)
+router.post('/refresh-token', validateRefreshToken, controller.refreshToken)
+router.post('/logout', validateRefreshToken, controller.logout)
+router.get('/private/data', authenticateAccessToken, controller.privateData)
 
 module.exports = router

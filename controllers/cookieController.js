@@ -6,7 +6,7 @@ async function login(req, res) {
 
         res.cookie('refresh_token', refreshToken, {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === 'production',
             sameSite: 'None',
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
@@ -26,12 +26,29 @@ async function login(req, res) {
 }
 
 async function refreshToken(req, res) {
-    // const refreshToken = req.cookies.refresh_token
-    // if (!service.validateRefreshToken(refreshToken)) {
-    //     return res.status(401).json({message: 'Invalid refresh token'})
-    // }
-    // const accessToken = service.refreshAccessToken(refreshToken)
-    // res.json({access_token: accessToken})
+    try {
+        const userId = req.userId
+        const oldToken = req.refreshToken
+
+        const {accessToken, refreshToken} = await service.refreshAccessToken(userId, oldToken)
+
+        res.cookie('refresh_token', refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'None',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+        res.json({
+            success: true,
+            data: {
+                access_token: accessToken
+            },
+            message: 'Login successful'
+        })
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({success: false, message: 'Internal Server Error'})
+    }
 }
 
 async function logout(req, res) {

@@ -7,7 +7,7 @@ async function login(req, res) {
         res.cookie('refresh_token', refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'None',
+            sameSite: 'Strict',
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
         res.json({
@@ -35,7 +35,7 @@ async function refreshToken(req, res) {
         res.cookie('refresh_token', refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'None',
+            sameSite: 'Strict',
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
         res.json({
@@ -61,7 +61,7 @@ async function logout(req, res) {
         res.clearCookie('refresh_token', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'None'
+            sameSite: 'Strict'
         })
 
         if (!deleted) {

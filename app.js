@@ -12,7 +12,14 @@ const cookieRoutes = require('./routes/cookieRoutes');
 
 const app = express();
 
-app.use(cors({origin: '*'})); // Insecure: allow all origins
+app.use(cors({
+    origin: 'http://localhost:5173',   // frontend origin
+    credentials: true                  // allow cookies
+}));
+app.options('*', cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
 app.use(bodyParser.json());
 app.use(cookieParser())
 

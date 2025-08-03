@@ -103,15 +103,23 @@ exports.getArrivalById = async (req, res) => {
 
 exports.approveArrival = async (req, res) => {
     const id = req.params.id;
-    const userId = req.user?.id || 0; // insecure: default 0
-    const username = req.user?.username || 'unknown';
+    const userId = req.userId
 
     try {
+        const result = await pool.query('SELECT * FROM users WHERE id = $1', [userId])
+        if (result.rowCount === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+        const user = result.rows[0];
+
         await pool.query(`
             UPDATE arrivals
             SET status              = 'approved',
                 approved_by_user_id = ${userId},
-                approved_by_name    = '${username}',
+                approved_by_name    = '${user.username}',
                 approved_at         = NOW()
             WHERE id = ${id}
         `);
@@ -129,15 +137,23 @@ exports.approveArrival = async (req, res) => {
 
 exports.rejectArrival = async (req, res) => {
     const id = req.params.id;
-    const userId = req.user?.id || 0;
-    const username = req.user?.username || 'unknown';
+    const userId = req.userId
 
     try {
+        const result = await pool.query('SELECT * FROM users WHERE id = $1', [userId])
+        if (result.rowCount === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+        const user = result.rows[0];
+
         await pool.query(`
             UPDATE arrivals
             SET status              = 'rejected',
                 rejected_by_user_id = ${userId},
-                rejected_by_name    = '${username}',
+                rejected_by_name    = '${user.username}',
                 rejected_at         = NOW()
             WHERE id = ${id}
         `);

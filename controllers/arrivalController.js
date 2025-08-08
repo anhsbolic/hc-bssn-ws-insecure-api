@@ -103,7 +103,7 @@ exports.getArrivalById = async (req, res) => {
 
 exports.approveArrival = async (req, res) => {
     const id = req.params.id;
-    const userId = req.userId
+    const userId = 1
 
     try {
         const result = await pool.query('SELECT * FROM users WHERE id = $1', [userId])
@@ -137,7 +137,7 @@ exports.approveArrival = async (req, res) => {
 
 exports.rejectArrival = async (req, res) => {
     const id = req.params.id;
-    const userId = req.userId
+    const userId = 1
 
     try {
         const result = await pool.query('SELECT * FROM users WHERE id = $1', [userId])

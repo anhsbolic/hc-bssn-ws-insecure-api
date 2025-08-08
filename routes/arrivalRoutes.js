@@ -14,7 +14,7 @@ const validateAccessToken = require('../middleware/validateAccessToken')
 router.post('/arrivals', createArrival);
 router.get('/arrivals', getArrivals);
 router.get('/arrivals/:id', getArrivalById);
-router.post('/arrivals/:id/approve', validateAccessToken, approveArrival);
-router.post('/arrivals/:id/reject', validateAccessToken, rejectArrival);
+router.post('/arrivals/:id/approve', approveArrival);
+router.post('/arrivals/:id/reject', rejectArrival);
 
 module.exports = router;

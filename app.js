@@ -13,11 +13,11 @@ const cookieRoutes = require('./routes/cookieRoutes');
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:5173',   // frontend origin
+    origin: 'https://hc-bssn-ws-web.vercel.app',   // frontend origin
     credentials: true                  // allow cookies
 }));
 app.options('*', cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://hc-bssn-ws-web.vercel.app',
     credentials: true
 }));
 app.use(bodyParser.json());
